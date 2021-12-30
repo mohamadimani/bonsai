@@ -14,13 +14,13 @@ class model
     function __construct()
     {
         if (isset($_SESSION['user_id'])) {
-            $this->user_id = $this->filter(base64_decode($_SESSION['user_id']));//for log system
+            $this->user_id = $this->filter(base64_decode($_SESSION['user_id'])); //for log system
         }
- //     $this->settings = parse_ini_file("db_info.ini2.php");
-       $this->settings = parse_ini_file("db_info.ini.php");
+        //     $this->settings = parse_ini_file("db_info.ini2.php");
+        $this->settings = parse_ini_file("db_info.ini.php");
         $utf = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
         $this->conn = new PDO("mysql:host=" . $this->settings['host'] . ";dbname=" . $this->settings['dbname'], $this->settings['user'], $this->settings['password'], $utf);
-//      $this->set_function_log('connect_db');
+        //      $this->set_function_log('connect_db');
     }
 
     function user_all_access($access = "all")
@@ -31,7 +31,7 @@ class model
             $clerk_id = $this->filter($clerk_id);
         }
         $controlle = $this->filter($access);
-//            check for admin access all
+        //            check for admin access all
         $sql = ("select * from `user_access` WHERE `user_id`=? and `access`=? ");
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $clerk_id);
@@ -69,7 +69,7 @@ class model
                     $clerk_id = $this->filter($clerk_id);
 
                     $controlle = $this->filter($controlle);
-//            check for admin access all
+                    //            check for admin access all
                     $sql = ("select * from `user_access` WHERE `user_id`=? and `access`=? ");
                     $stmt = $this->conn->prepare($sql);
                     $stmt->bindParam(1, $clerk_id);
@@ -167,12 +167,12 @@ class model
         if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
             $ip = $this->filter($_SERVER['HTTP_X_REAL_IP']);
         } //last requester
-        elseif (!empty($_SERVER['HTTP_CLIENT-IP']))//internet sharing center
+        elseif (!empty($_SERVER['HTTP_CLIENT-IP'])) //internet sharing center
             $ip = $this->filter($_SERVER['HTTP_CLIENT-IP']);
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))//check for proxies
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //check for proxies
             $ip = $this->filter($_SERVER['HTTP_X_FORWARDED_FOR']);
         else {
-            $ip = $this->filter($_SERVER['REMOTE_ADDR']);//if there's not a proxy
+            $ip = $this->filter($_SERVER['REMOTE_ADDR']); //if there's not a proxy
         }
         return $ip;
     }
@@ -202,7 +202,6 @@ class model
 
     function session_set($type = '', $value = '')
     {
-
     }
 
     function str_cod($len = '20')
@@ -254,8 +253,8 @@ class model
 
     function time_to_jalali_date($param = 'D', $date = "")
     {
-//    option    $param='D','T','DT';
-//    option    $date=  'time',empty;
+        //    option    $param='D','T','DT';
+        //    option    $date=  'time',empty;
 
         if (empty($date)) {
             $date = time();
@@ -279,7 +278,6 @@ class model
         } else if ($param == 'T') {
             return ['time' => $time];
         }
-
     }
 
     function gregorian_to_jalali($gy, $gm, $gd, $mod = '')
@@ -307,7 +305,7 @@ class model
         return ($mod == '') ? array($jy, $jm, $jd) : $jy . $mod . $jm . $mod . $jd;
     }
 
-//    convert send date to persian date
+    //    convert send date to persian date
     function convert_date($data = "")
     {
         if (!empty($data)) {
@@ -344,10 +342,9 @@ class model
         $error = curl_error($ch);
         curl_close($ch);
         return $contents;
-
     }
 
-//    select some text from string
+    //    select some text from string
     function sub_text($text = '', $char = '', $dot = "")
     {
         $title = $text;
@@ -415,7 +412,7 @@ class model
         return $array;
     }
 
-//    set_pages seen log
+    //    set_pages seen log
     function seen_pages($page_names = "index")
     {
         $page_name = "index";
@@ -428,10 +425,10 @@ class model
             $date = $is_ip["view_date"] - strtotime('today midnight');
             if ($date < 86400 and $date > 0) {
                 $this->Do_Query("UPDATE `page_views_log` SET `views` = `views`+1 ,`view_date`=? WHERE `page_views_log`.`page_name` = ? and `user_ip`=? and `view_date`>=$today", [time(), $page_name, $ip]);
-//                echo 'today';
+                //                echo 'today';
             } else {
                 $this->Do_Query("insert into `page_views_log`(`page_name`,`views`,`user_ip`,`view_date`) VALUES (?,1, ?,?)", [$page_name, $ip, time()]);
-//                echo 'yesterday';
+                //                echo 'yesterday';
             }
         } elseif (empty($is_ip["id"])) {
             $this->Do_Query("insert into `page_views_log`(`page_name`,`views`,`user_ip`,`view_date`) VALUES (?,1, ?,?)", [$page_name, $ip, time()]);
@@ -542,8 +539,8 @@ class model
                 $newwidth = $w;
             }
         }
-//        $file_name = 'thumb_' . basename($file);
-//        $ese=pathinfo($file_name,PATHINFO_EXTENSION);
+        //        $file_name = 'thumb_' . basename($file);
+        //        $ese=pathinfo($file_name,PATHINFO_EXTENSION);
         $what = getimagesize($file);
         switch (strtolower($what['mime'])) {
             case 'image/png':
@@ -571,12 +568,11 @@ class model
     {
         $url = "37.130.202.188/services.jspd";
         $rcpt_nm = array($number);
-        $param = array
-        (
+        $param = array(
             'uname' => 'drm',
             'pass' => '69648751',
             'from' => '100020400',
-//            'from' => '5000125475',
+            //            'from' => '5000125475',
             'message' => trim($text),
             'to' => json_encode($rcpt_nm),
             'op' => 'send'
