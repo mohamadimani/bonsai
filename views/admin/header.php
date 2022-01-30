@@ -318,7 +318,19 @@ if (!empty($_SESSION["admin_login_time"]) and $_SESSION["admin_login_time"] > ti
                                 </li>
                             </ul>
                         </li>
-
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect">
+                                <i class="fa fa-user"></i>
+                                <span class="menu-arrow"></span> مدیریت ویدئو ها </a>
+                            <ul class="list-unstyled">
+                                <li class="admin_video/category"><a href="
+                        <?= SITE_URL ?>admin_video/category">
+                                        دسته بندی ویدئو ها </a></li>
+                                <li class="admin_video"><a href="
+                        <?= SITE_URL ?>admin_video"> ویدئو ها </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="text-muted menu-title">فروشگاه</li>
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect">
